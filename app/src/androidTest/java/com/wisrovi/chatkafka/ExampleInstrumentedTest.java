@@ -1,4 +1,4 @@
-package com.wisrovi.chat_kafka;
+package com.wisrovi.chatkafka;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.wisrovi.chat_kafka", appContext.getPackageName());
+        assertEquals("com.wisrovi.chatkafka", appContext.getPackageName());
     }
 }

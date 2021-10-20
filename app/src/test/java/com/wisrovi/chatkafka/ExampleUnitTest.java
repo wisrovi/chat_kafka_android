@@ -1,4 +1,4 @@
-package com.wisrovi.chat_kafka;
+package com.wisrovi.chatkafka;
 
 import org.junit.Test;
 
