@@ -3,15 +3,16 @@ package com.wisrovi.chatkafka;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import java.time.Duration;
+import java.util.Arrays;
 import java.util.Properties;
 import android.os.Bundle;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.serialization.LongSerializer;
-import org.apache.kafka.common.serialization.StringSerializer;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.serialization.StringDeserializer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,18 +27,20 @@ public class MainActivity extends AppCompatActivity {
 
         Properties propiedadesKafka = new Properties();
         propiedadesKafka.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, server);
-        //props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
-        //props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        propiedadesKafka.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        propiedadesKafka.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        propiedadesKafka.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        propiedadesKafka.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "test");
 
-        //KafkaProducer<String, String> producer = new KafkaProducer<String, String>(props);
+        KafkaConsumer<String,String> consumer = new KafkaConsumer<String, String>(propiedadesKafka);
 
-        /*String mensaje_send = "hola mundo";
-        String topic = "message";
+        //consumer.subscribe(Arrays.asList(topic));
 
-        ProducerRecord<String, String> data = new ProducerRecord<String, String>(topic, 0, null, mensaje_send);
-        producer.send(data);
-
-        producer.close();*/
-
+        /*while(true){
+            ConsumerRecords<String,String> records=consumer.poll(Duration.ofMillis(100));
+            for(ConsumerRecord<String,String> record: records){
+                System.out.println("Key: "+ record.key() + ", Value:" +record.value());
+            }
+        }*/
     }
 }
